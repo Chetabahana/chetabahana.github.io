@@ -86,3 +86,7 @@ pids
 .ipython/
 .jupyter/
 .spyder-py3/
+.bash_logout
+.bashrc
+.motd_shown
+.profile
