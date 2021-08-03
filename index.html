@@ -7,6 +7,11 @@ layout: default
 *  and sorts it by the front matter variable 'weight' and than render
 *  each of the {{ output }} with their own layout
 *
+*  Difference between Section, Container and Div:
+*  - Section: Has standard full width of viewport and cannot have nested sections
+*  - Container: Same as Div but locked at 940 pixel width and auto-placed in center of page
+*  - Div: Same as a container without restrictions and can have nested divs
+*
 *  To provide it with an online work you may see the running code here:
 *  https://chetabahana.github.io/
 *
@@ -20,3 +25,4 @@ layout: default
 {% endfor %}
     </body>
 </html>
+
