@@ -69,6 +69,7 @@ pids
 .env
 .aws/
 .ssh/
+.kivy/
 .azure/
 .gnupg/
 .keras/
