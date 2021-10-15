@@ -1,5 +1,5 @@
 ---
-menus: ['abstrak', 'skema', 'eksekusi', 'portfolio', 'publikasi', 'network', 'diskusi']
+menus: ['abstrak', 'skema', 'portfolio', 'eksekusi', 'publikasi', 'network', 'diskusi']
 ---
 {% comment %}
 *
