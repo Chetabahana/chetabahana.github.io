@@ -1,0 +1,15 @@
+<p>st=&gt;start: Start|past:&gt;http://www.google.com[blank]
+e=&gt;end: End|future:&gt;http://www.google.com
+op1=&gt;operation: My Operation|past
+op2=&gt;operation: Stuff|current
+sub1=&gt;subroutine: My Subroutine|invalid
+cond=&gt;condition: Yes
+or No?|approved:&gt;http://www.google.com
+c2=&gt;condition: Good idea|rejected
+io=&gt;inputoutput: catch something…|future</p>
+
+<p>st-&gt;op1(right)-&gt;cond
+cond(yes, right)-&gt;c2
+cond(no)-&gt;sub1(left)-&gt;op1
+c2(yes)-&gt;io-&gt;e
+c2(no)-&gt;op2-&gt;e&lt;</p>

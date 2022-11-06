@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8"/>
+  <link rel="alternate" hreflang="en" href="slanding_en.html">
+  <link rel="alternate" hreflang="ru" href="slanding_ru.html">
+  <link rel="alternate" hreflang="ko" href="slanding_ko.html">
+  <title>VELES</title>
+  <meta property="og:image" content="/img/veles.png"/>
+  <meta property="og:title" content="VELES"/>
+  <meta property="og:description" content="
+  {% if lang not in ["ru", "ko"] %}
+  Distributed platform for rapid Deep learning application development.
+  {% elif lang == "ko" %}
+  분산 기계 학습 플랫폼
+  {% elif lang == "ru" %}
+  Высокопроизводительная распределённая платформа для машинного обучения
+  {% endif %}
+  "/>
+  <meta name="description" content="
+  {% if lang not in ["ru", "ko"] %}
+  Distributed platform for rapid Deep learning application development.
+  {% elif lang == "ko" %}
+  분산 기계 학습 플랫폼
+  {% elif lang == "ru" %}
+  Высокопроизводительная распределённая платформа для машинного обучения
+  {% endif %}
+  ">
+  <!-- build:css css/slanding.min.css -->
+  <link rel="stylesheet" type="text/css" href="libs/github-fork-ribbon-css/gh-fork-ribbon.css"/>
+  <link rel="stylesheet" type="text/css" href="../build/css/slanding.css"/>
+  <link rel="stylesheet" type="text/css" href="../build/css/ipython.css"/>
+  <link rel="stylesheet" type="text/css" href="../build/css/countdown.css"/>
+  <!-- endbuild -->
+</head>
+
+{% macro toplink(id, hint, href, img) %}
+<a id="link-{{ id }}" class="toplink" href="{{ href }}" target="_blank" hint="{{ hint }}">
+  <img src="img/{{ img }}.svg" id="svg-{{ img }}" alt="{{ hint }}" title="{{ hint }}">
+</a>
+{% endmacro %}
+
+{% set github = "https://github.com/samsung/veles" %}
+
+{% macro download() %}
+<a class="download" href="{{ github }}/releases" target="_blank">Download</a>
+{% endmacro %}
+
+<body>
+  <script>
+    var mobile = /(android|iphone|ipod|windows phone)/.test(navigator.userAgent.toLowerCase());
+  </script>
+  <nav>
+    <div id="links">
+      {{ toplink("github", "GitHub", github, "octocat") }}
+      {{ toplink("gerrit", "Gerrit&nbsp;Code&nbsp;Review", "https://velesnet.ml/gerrit", "diffy") }}
+      {{ toplink("jenkins", "Jenkins&nbsp;CI", "https://velesnet.ml/jenkins", "jenkins") }}
+      {{ toplink("forge", "VelesForge", "https://velesnet.ml/forge", "forge") }}
+      {{ toplink("benchmarks", "Benchmarks", "https://velesnet.ml/benchmarks", "chart")}}
+      {{ toplink("docs", "Docs", "https://velesnet.ml/docs", "manual") }}
+      {{ toplink("blog", "Blog", "https://velesnet.ml/blog", "blog")}}
+      {{ toplink("twitter", "Twitter", "https://twitter.com/velesml", "twitter") }}
+    </div>
+  </nav>
+  <div class="github-fork-ribbon-wrapper right" style="visibility: hidden; opacity: 0;">
+      <div class="github-fork-ribbon">
+          <a href="{{ github }}">Fork me on GitHub</a>
+      </div>
+  </div>
+  <section id="promo">
+    <video autoplay="autoplay" data-role="video" loop="loop" poster="img/video0.jpg">
+        <source src="video/veles.mp4">
+        <source src="video/veles.webm">
+    </video>
+    <script>
+      if (mobile) {
+        (function() {
+          var video = document.getElementsByTagName("video")[0];
+          video.parentNode.removeChild(video);
+        })();
+      }
+    </script>
+    <div id="title">
+      <h1 class="fabrica">{% if lang == "en" %}
+        The VELES
+        {% else %}
+        VELES
+        {% endif %}
+      </h1>
+      <h2>{% if lang not in ["ru", "ko"] %}
+        Distributed platform for rapid Deep learning application development.
+      {% elif lang == "ko" %}
+        분산 기계 학습 플랫폼
+      {% elif lang == "ru" %}
+        Высокопроизводительная распределённая платформа для машинного обучения
+      {% endif %}</h2>
+      <br><br>
+      <h3 {% if lang == "en" %}
+          class="boast-content"
+      {% else %}
+          class="boast-content fabrica"
+      {% endif %}
+      >
+        {% if lang not in ["ru", "ko"] %}
+        You change parameters. Veles takes the rest.
+        {% elif lang == "ko" %}
+        모델 매개 변수만 변경하세요. 그 나머지는 VELES의 몫입니다.
+        {% elif lang == "ru" %}
+        Вы изменяете параметры. VELES позаботится об остальном.
+        {% endif %}
+      <br><br>
+      </h3>
+      {{ download() }}
+    </div>
+  </section>
+  <script>
+    if (mobile) {
+      document.getElementById("promo").setAttribute("mobile", "mobile");
+    }
+  </script>
+  <section class="details" id="intro">
+    <div>
+      <h3>Written on Python, uses OpenCL or CUDA, employs Flow-Based Programming, under Apache 2.0.</h3>
+      <ul id="steps">
+        <li><img src="img/intro_1.svg" alt="1">
+        {% if lang not in ["ru", "ko"] %} Deploy VELES on Notebook or Cluster with a single command
+        {% elif lang == "ko" %} 단 한 줄의 명령어로 Notebook이나 Cluster에 VELES 배포 가능
+        {% endif %}
+        </li>
+
+        <li><img src="img/intro_2.svg" alt="2">
+        {% if lang not in ["ru", "ko"] %} Create the model from >250 optimized units
+        {% elif lang == "ko" %} 250개 이상의 최적화된 unit들로부터 모델 생성
+        {% endif %}
+        </li>
+
+        <li><img src="img/intro_3.svg" alt="3">
+        {% if lang not in ["ru", "ko"] %} Analyze and serve the dataset on the go using Loaders
+        {% elif lang == "ko" %} go를 사용하는 Loaders에서 dataset을 분석 및 제공
+        {% endif %}
+        </li>
+
+        <li><img src="img/intro_4.svg" alt="4">
+        {% if lang not in ["ru", "ko"] %} Train it on PC or High Performance Cluster
+        {% elif lang == "ko" %} PC 또는 고성능 Cluster에서의 훈련
+        {% endif %}
+        </li>
+
+        <li>
+          {% if lang not in ["ru", "ko"] %} Interactively monitor the training process
+          {% elif lang == "ko" %} 훈련 프로세스에 대한 상호작용적 관찰
+          {% endif %}
+          <img src="img/intro_5.svg" alt="5">
+        </li>
+
+        <li>
+          {% if lang not in ["ru", "ko"] %} Publish the results
+          {% elif lang == "ko" %} 결과의 배포
+          {% endif %}
+          <img src="img/intro_6.svg" alt="6">
+        </li>
+
+        <li>
+          {% if lang not in ["ru", "ko"] %} Automatically extract the trained model as an application
+          {% elif lang == "ko" %} 훈련된 모델을 application으로 자동 추출
+          {% endif %}
+          <img src="img/intro_7.svg" alt="7"></li>
+
+        <li style="margin-left: 50%;">
+          {% if lang not in ["ru", "ko"] %} Run it in the cloud
+          {% elif lang == "ko" %} Cloud에서의 구동
+          {% endif %}
+          <img src="img/intro_8.svg" alt="8">
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section id="doneright">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2>Neural networks done right. With a human face.</h2>
+      <p>
+        {% if lang not in ["ru", "ko"] %} veles.znicz NN engine focuses on performance and flexibility. It has little hard-coded entities and enables training
+         of all the widely recognized topologies, such as fully connected nets, convolutional nets, reccurent nets etc.
+        {% elif lang == "ko" %} veles.znicz NN engine은 성능과 유연성에 집중하고 있습니다. Hard coding된 일부 엔티티들을 통해, fully connected nets, convolutional nets, reccurent nets 등의 널리 알려진 모든 위상의 학습이 가능합니다. 
+        {% endif %}
+      </p>
+      <p>
+        {% if lang not in ["ru", "ko"] %} In-depth introspection and rich debugging facilities helps to develop nets quickly with predictable result.
+        {% elif lang == "ko" %} In-depth introspection과 rich debugging facilities는 예측가능한 결과를 가지고 신속하게 net을 개발할 수 있도록 합니다.
+        {% endif %}
+      </p>
+      <p>
+        {% if lang not in ["ru", "ko"] %} All backends have the same interface and yield the same calculation results or accuracy, with single or
+        <strong>double</strong> precision.
+        {% elif lang == "ko" %} 모든 backend는 동일한 인터페이스를 가지며, 계산 결과 및 정확도의 동일성을 보장합니다. 
+        {% endif %}
+        </p>
+    </div>
+  </section>
+  <section class="details">
+    <div class="with-picture" id="master-slave">
+      <div class="description" id="master-slave-desc">
+        <div>
+          <p>
+            {% if lang not in ["ru", "ko"] %} ZeroMQ-based star topology of distributed operation handles up to 100 nodes, depending on the task.
+            Optionally, some compression can be applied. The state of things is sent to the Web Status Server.
+            {% elif lang == "ko" %} 분산 모드의 ZeroMQ-based star topology는 task에 따라 100개 이상의 노드를 다를 수 있고, 압축을 수행할 수도 있습니다. 일의 진행 상황은 Web Status Server로 보내집니다.
+            {% endif %}
+            </p>
+          <p>
+            {% if lang not in ["ru", "ko"] %} The whole thing is fault tolerant, the death of a node does not cause the master stop. You can add new nodes
+            dynamically, at any time, with any backends.
+            {% elif lang == "ko" %} 장애 내성이 있으므로, node를 사용할 수 없게되어도 master에는 영향을 미치지 않습니다. 언제 어디서든 동적으로 새로운 node를 추가할 수 있습니다. 
+            {% endif %}
+          </p>
+          <p>
+            {% if lang not in ["ru", "ko"] %} Snapshotting feature allows recovering from any disaster, restart the training in a different mode and with a different backend.
+            {% elif lang == "ko" %} Snapshot 기능을 통하여 문제 발생 시 복구가 가능하며, 다른 모드 및 다른 backend에서 훈련을 재개 할 수 있습니다. 
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="picture" id="master-slave-picture">
+        <object type="image/svg+xml" data="img/ms.svg" data-src="img/ms.svg" id="ms"></object>
+        <object type="image/svg+xml" data="img/king.svg" id="king"></object>
+      </div>
+    </div>
+  </section>
+  <section id="velesforge">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2>Share your experiments.</h2>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Upload your workflows to <a href="https://velesnet.ml/forge">Forge</a>.
+        Access others' work. See what Veles is capable of.
+        {% elif lang == "ko" %} 당신의 작업을 <a href="https://velesnet.ml/forge">Forge</a>에 올려주시고, 다른 사람들의 작업도 확인해 보세요.  
+        {% endif %}
+      </p>
+    </div>
+  </section>
+  <section class="details">
+    <div>
+      {% if lang not in ["ru", "ko"] %} Veles is usable from IPython or IPython Notebook.
+      {% elif lang == "ko" %} VELES는 IPython 또는 IPython 노트북에서 사용할 수 있습니다.
+      {% endif %}
+      {% include "ipython.html" %}
+    </div>
+  </section>
+  <section id="publish">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2>Publish the results.</h2>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Receive automatic reports when the training ends. The supported formats include Atlassian Confluence; PDF,
+        Latex and HTML backends are not yet implemented - but soon will be.
+        {% elif lang == "ko" %} 훈련이 끝나면 자동으로 Atlassian Confluence format(PDF, Latex, HTML format 지원 예정)의 결과를 확인할 수 있습니다.
+        {% endif %}
+      </p>
+    </div>
+  </section>
+  <section class="details">
+    <div>
+      {% if lang not in ["ru", "ko"] %} Tens of plotting units provide comprehensive insight into the training process.
+      {% elif lang == "ko" %} 훈련과정에서 수십개의 plotting unit들을 통해 포괄적인 통찰력을 얻게 됩니다.
+      {% endif %}
+      <div id="plotters-container">
+        <object type="image/svg+xml" data="img/plotters.svg" id="plotters"></object>
+        <iframe id="viewerjs" src="viewerjs/#../sample.pdf" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+  {% macro digit(series, index) %}
+  <svg class='digit' xmlns="http://www.w3.org/2000/svg">
+    <use xlink:href="img/countdown.svg#cd_{{ index }}_{{ series }}"/>
+  </svg>
+  {% endmacro %}
+  {% macro digits(base, size) %}
+  <div class='digit-wrapper'>
+    {{ digit(base, 0) }}
+    {% for i in range(size) | reverse %}
+    {{ digit(base, i) }}
+    {% endfor %}
+  </div>
+  {% endmacro %}
+  <section id='countdown'>
+    <h2>You've got only</h2>
+    <div class="countdown-container">
+      <div class='countdown-part-container'>
+        <div class='countdown-part hours tens'>
+          {{ digits(0, 3) }}
+        </div>
+        <div class='countdown-part hours ones'>
+          {{ digits(1, 10) }}
+        </div>
+      </div>
+      <div class='countdown-delimiter'><span>:</span></div>
+      <div class='countdown-part-container'>
+        <div class='countdown-part minutes tens'>
+          {{ digits(2, 6) }}
+        </div>
+        <div class='countdown-part minutes ones'>
+          {{ digits(3, 10) }}
+        </div>
+      </div>
+      <div class='countdown-delimiter'><span>:</span></div>
+      <div class='countdown-part-container'>
+        <div class='countdown-part seconds tens'>
+          {{ digits(4, 6) }}
+        </div>
+        <div class='countdown-part seconds ones'>
+          {{ digits(5, 10) }}
+        </div>
+      </div>
+    </div>
+    <h2>till the end of day to </h2>
+    {{ download() }}
+    <span id="countdown-notice">...and then the next day will come.</span>
+  </section>
+  <section id="bboxer">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2>Create your own image datasets, fast.</h2>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Veles includes "bboxer", a collaborative tool for image dataset markup.
+        {% elif lang == "ko" %} Veles는 image dataset markup을 위한 협업 도구 'bboxer'를 제공합니다. 
+        {% endif %}
+      </p>
+    </div>
+  </section>
+  <section class="details" id="loader-stats">
+    <div id="loader-stats-boast">
+      {% if lang not in ["ru", "ko"] %} Veles loaders provide automatic dataset analysis.<br>
+      Solve your task without having to write how to load the data.
+      {% elif lang == "ko" %} Veles loader로 자동화된 dataset 분석을 할 수 있으므로, data를 load 하는 방법을 작성할 필요가 없습니다. 
+      {% endif %}
+    </div>
+    <pre id="loader-sample">
+<span class="log-annotation">Requires no data preprocessing</span><span class="log-info">INFO</span>:MnistLoader:Loading from original MNIST files...
+<span class="log-info">INFO</span>:MnistLoader:Minibatch size is set to 88
+<span class="log-annotation">See the number of samples in each set</span><span class="log-info">INFO</span>:MnistLoader:Samples number: test: 0, validation: 10000, train: 60000
+<span class="log-debug">DEBUG:MnistLoader:Shuffling, remaining limit is 4294967294</span>
+<span class="log-debug">DEBUG:MnistLoader:Shuffled train set</span>
+<span class="log-annotation">Various data normalization algorithms</span><span class="log-info">INFO</span>:MnistLoader:Normalizing to linear...
+<span class="log-debug">DEBUG:MnistLoader:Data range: (0.000000, 255.000000), </span>
+<span class="log-debug">DEBUG:MnistLoader:Normalized data range: (-1.000000, 1.000000), </span>
+<span class="log-annotation">The number of classes in the raw data</span><span class="log-info">INFO</span>:MnistLoader:There are 10 unique labels
+<span class="log-info">INFO</span>:MnistLoader:train label cardinalities: min: 5421 (&quot;5&quot;), max: 6742 (&quot;1&quot;), avg: 6000, σ: 322 (5%)
+<span class="log-debug">DEBUG:MnistLoader:Detailed train label stats:
++-------+-------------+------+---------------------------+
+| Label | Cardinality |    % | Histogram                 |
++-------+-------------+------+---------------------------+
+|   0   |        5923 |  9.9 | *********************     |
+|   1   |        6742 | 11.2 | ************************* |
+|   2   |        5958 |  9.9 | **********************    |
+|   3   |        6131 | 10.2 | **********************    |
+|   4   |        5842 |  9.7 | *********************     |
+|   5   |        5421 |  9.0 | ********************      |
+|   6   |        5918 |  9.9 | *********************     |
+|   7   |        6265 | 10.4 | ***********************   |
+|   8   |        5851 |  9.8 | *********************     |
+|   9   |        5949 |  9.9 | **********************    |
++-------+-------------+------+---------------------------+</span>
+<span class="log-annotation">Calculates the cardinality standard deviation to reflect the balance</span><span
+            class="log-info">INFO</span>:MnistLoader:validation label cardinalities: min: 892 (&quot;5&quot;), max: 1135 (&quot;1&quot;), avg: 1000, σ: 59 (5%)
+<span class="log-debug">DEBUG:MnistLoader:Detailed validation label stats:
++-------+-------------+------+---------------------------+
+| Label | Cardinality |    % | Histogram                 |
++-------+-------------+------+---------------------------+
+|   0   |         980 |  9.8 | *********************     |
+|   1   |        1135 | 11.3 | ************************* |
+|   2   |        1032 | 10.3 | **********************    |
+|   3   |        1010 | 10.1 | **********************    |
+|   4   |         982 |  9.8 | *********************     |
+|   5   |         892 |  8.9 | *******************       |
+|   6   |         958 |  9.6 | *********************     |
+|   7   |        1028 | 10.3 | **********************    |
+|   8   |         974 |  9.7 | *********************     |
+|   9   |        1009 | 10.1 | **********************    |
++-------+-------------+------+---------------------------+</span>
+<span class="log-annotation">Does a simple test on mutual set balance</span><span class="log-info">INFO</span>:MnistLoader:<span
+            class="log-success">OK: train and validation labels have the same distributions (Χ-square test's p-value is 1.000)</span>
+<span class="log-info">INFO</span>:MnistLoader:Will try to store the entire dataset on the device
+<span class="log-debug">DEBUG:MnistLoader:Used the cached fullbatch_loader for engine &quot;ocl&quot;</span></pre>
+  </section>
+  <section id="hadoop">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2>Veles and Hadoop are friends.</h2>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Veles is bundled with Mastodon, a subproject which integrates it with
+        any Java application. Mastodon includes a simple load balancer between Java
+        nodes and Veles slaves.
+        {% elif lang == "ko" %} Veles는 Java application과 통합된 하위 프로젝트 Mastodon과 번들로 제공되며, Mastodon은 Java node와 Veles slave간의 load balancer를 포함합니다. 
+        {% endif %}
+      </p>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Extract features in Hadoop and classify objects in Veles. Analyze data
+        in Veles and pass the results next through the pipeline.
+        {% elif lang == "ko" %} Hadoop으로 기능들을 추출하고, Veles로 object들을 분류, 분석하고 pipeline을 통해 결과를 전달합니다. 
+        {% endif %}
+      </p>
+    </div>
+  </section>
+  <section class="details">
+    <div class="with-picture" id="veles-arch">
+      <div class="description">
+        <p>
+          {% if lang not in ["ru", "ko"] %} Machine learning model execution goes in a <em>workflow</em>, which consists of <em>units</em> and child
+          workflows.
+          Units represent logically independent and integral algorithm parts. E.g. single network layer is a unit; the gradient descent step is another unit.
+          {% elif lang == "ko" %} 기계 학습 모델은 unit과 자식 작업(child workflow)으로 구성된 '작업(workflow)'에서 실행됩니다. unit은 논리적으로 독립된 필수 알고리즘의 일부를 뜻하며, 예를 들어 single network layer는 하나의 unit이 됩니다.  
+          {% endif %}
+        </p>
+
+        <p>
+          {% if lang not in ["ru", "ko"] %} Veles uses a typical data driven approach, where control flow is ruled by data processing through control flow
+          links between units.
+          {% elif lang == "ko" %} Veles는 전형적인 data driven 방식을 사용합니다.
+          {% endif %}
+        </p>
+
+        <p>
+          {% if lang not in ["ru", "ko"] %} Such architecture allows easily manageable data parallel and model parallel execution of models.
+          {% elif lang == "ko" %} 이러한 구조를 통해 data와 model 병렬 실행 모델을 쉽게 관리할 수 있습니다. 
+          {% endif %}
+        </p>
+      </div>
+      <object type="image/svg+xml" data="img/workflow.svg" id="workflow" class="picture"></object>
+    </div>
+  </section>
+  <section id="packed-features">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2>Packed with features.</h2>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Veles is cluster and Docker friendly. Deploy the exported tarball, initialize the pyenv
+        environment and you are ready to go - with just 2 simple commands.
+        {% elif lang == "ko" %} Veles는 cluster이고, Docker 친화적입니다. 간단한 두개의 명령어를 이용하여, tarball을 배포하고 pyenv 환견을 초기화하면 모든 준비는 끝납니다. 
+        {% endif %}
+        </p>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} REST API allows to use the trained model in a production environment at once.
+        {% elif lang == "ko" %} REST API를 이용하면 한번에 생산환경에서 훈련 모델을 사용하게 할 수 있습니다.
+        {% endif %}
+      </p>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Manhole feature allows to execute an interactive IPython session in the running process context at any
+        time.
+        {% elif lang == "ko" %} Manhole 기능은 실행 프로세스 상태에서 언제든지 대화형 IPython 세션을 실행할 수 있게 합니다. 
+        {% endif %}
+      </p>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Live reload feature allows changing the Python code without restarting the process.
+        {% elif lang == "ko" %} Live reload 기능으로 프로세스를 재시작하지 않고도 Python 코드를 변경할 수 있습니다.
+        {% endif %}
+      </p>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} And many, many more...
+        {% elif lang == "ko" %} 그리고, 더 많은 것들이 가능합니다. 
+        {% endif %}
+        </p>
+    </div>
+  </section>
+  <section class="details">
+    <div>
+      <div id="locpie-container">
+        <h4>Lines of Code</h4>
+
+        <div id="locpie"></div>
+        <div id="locpie-legend">
+          {% for name in ["Java", "SASS", "HTML", "OpenCL/CUDA", "Javascript", "C/C++", "Python (tests)", "Python
+          (platform)"] %}
+          <div class="lp{{ loop.index }} locpie-legend-record">{{ name }}</div>
+          <br>
+          {% endfor %}
+        </div>
+      </div>
+      {% if lang not in ["ru", "ko"] %} Veles platform is built on top of many open source projects.<br>
+      {% elif lang == "ko" %} Veles는 다양한 오픈소스 프로젝트들을 기반으로 합니다.<br>
+      {% endif %}
+      <img id="deps" src="img/deps.png" alt="Dependencies">
+      <blockquote id="newton">
+        <p>
+          {% if lang not in ["ru", "ko"] %} If I have seen further it is by standing on the shoulders of giants.
+          {% elif lang == "ko" %} 내가 이 세상을 멀리 볼 수 있는 것은 거인의 어깨 위에 올라서 있기 때문이다.
+          {% endif %}
+        </p>
+        <footer>Isaac Newton</footer>
+      </blockquote>
+    </div>
+  </section>
+  <section id="contributions">
+    <div class="parallax"></div>
+    <div class="boast">
+      <h2> 
+      {% if lang not in ["ru", "ko"] %} Contributions are welcome.
+      {% elif lang == "ko" %} 여러분의 참여를 기다립니다.
+      {% endif %}
+      </h2>
+
+      <p>
+        {% if lang not in ["ru", "ko"] %} Send pull requests on GitHub, they will be automatically converted into
+        <a href="https://velesnet.ml/gerrit">Gerrit patchsets</a>.
+        Watch how nightly tests run in <a href="https://velesnet.ml/jenkins">Jenkins</a>.
+        {% elif lang == "ko" %} Github로 pull request를 보내면, 자동으로 <a href="https://velesnet.ml/gerrit">Gerrit patchsets</a>로 전환됩니다. 
+        Nightly tests는 <a href="https://velesnet.ml/jenkins">Jenkins</a>에서 확인하실 수 있습니다.
+        {% endif %}
+      </p>
+
+      <p> 
+        {% if lang not in ["ru", "ko"] %} There is plenty of work to do: port to Windows and Mac OS X, add CuDNN
+        support, extend reporting options, improve the distributed operation and
+        many, many more.
+        {% elif lang == "ko" %} VELES는 아직 갈 길이 멉니다. Windows와 Mac OS X로 port, CUDNN 지원, reporting option 확장, 분산 모드의 향상 등 해야할 일들이 많습니다. 여러분의 참여를 기다립니다.
+        {% endif %}
+      </p>
+    </div>
+  </section>
+  <footer id="bottom">
+    {% macro samsung() %}
+    <img src="img/samsung.svg" id="svg-samsung" alt="Samsung">
+    {% endmacro %}
+    <h3 id="developed_by">
+    {% if lang not in ["ru", "ko"] %}
+    Developed and released as open source by {{ samsung() }}
+    {% elif lang == "ko" %}
+    이 프로젝트는 Open Source 프로젝트 입니다. developed by {{ samsung() }}
+    {% elif lang == "ru" %}
+    Проект разработан в {{ samsung() }}
+    {% endif %}
+    </h3>
+    {{ download() }}
+    <br><br>
+    Copyright © Samsung Electronics Co., Ltd., 2013-2015. Veles project is released under
+    <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a> and was originally developed at
+    Samsung R&amp;D Institute Russia. This web site is copyright © Vadim Markovtsev,
+    it's code is released under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0 Unported</a> at
+    <a href="https://github.com/vmarkovtsev/veles-slanding">GitHub</a>.<br>
+    We gratefully acknowledge the creators of the following images: "Business and website development doodles elements":
+    Pressureua; "Abstract cubic backgrounds": Dmytro Tolokonov; "Illustration concept of creative collaboration":
+    Kchungtw; MNIST digits: American Census Bureau employees and American high school students; Imagenet Fish: Stanford
+    Vision Lab, Stanford University, Princeton University; Elephants: Tony Karumba; "Star field of Constellation
+    Scorpius": Marc Van Norden.
+  </footer>
+
+  <!-- build:js js/jquery.min.js -->
+  <script src="libs/jquery/dist/jquery.min.js"></script>
+  <!-- endbuild -->
+
+  <script>
+    if (mobile) {
+      $(".parallax").attr("mobile", "mobile");
+    }
+  </script>
+  <!-- build:js js/slanding.min.js -->
+  <script src="../build/js/scroll.js"></script>
+  <script src="../build/js/download.js"></script>
+  <script src="../build/js/jquery.drawPieChart.js"></script>
+  <script src="../build/js/locpie.js"></script>
+  <script src="../build/js/offset_log_annotations.js"></script>
+  <script src="libs/modernizr/modernizr.js"></script>
+  <script src="libs/svg-injector/svg-injector.js"></script>
+  <script src="../build/js/svg_inject.js"></script>
+  <script src="../build/js/countdown.js"></script>
+  <!-- endbuild -->
+</body>
+</html>

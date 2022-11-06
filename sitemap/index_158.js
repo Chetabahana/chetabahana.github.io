@@ -1,0 +1,1 @@
+var init = '/sequence.json';

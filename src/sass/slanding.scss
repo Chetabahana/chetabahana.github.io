@@ -1,0 +1,828 @@
+// Core variables and mixins
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+// Reset and dependencies
+@import "bootstrap/normalize";
+@import "bootstrap/print";
+
+// Core CSS
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/code";
+@import "bootstrap/buttons";
+
+// Components
+@import "bootstrap/wells";
+
+
+$navicon_height: 4em;
+$front_title_offset: 12em;
+$section_padding: 4em;
+$loc_chart_size: 20vw;
+$shade: #505050;
+$border_radius: 0.25em;
+$details_height: 80vh;
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 0.8658vw;
+  line-height: 1;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 8em;
+}
+
+#title > h1 {
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 4em;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+#title > h3 {
+  margin-bottom: 1em;
+  font-weight: bold;
+}
+
+#promo {
+  background: #282828;
+  width: 100vw;
+  height: 95vh;
+  min-height: 30vw;
+  max-height: 95vh;
+  position: relative;
+}
+
+video:not([mobile]) {
+  mix-blend-mode: overlay;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+video[mobile] {
+  display: none;
+}
+
+#promo[mobile] {
+  background-blend-mode: multiply;
+  background: $shade url("../img/video0.jpg");
+  background-size: cover;
+}
+
+section {
+  color: white;
+  position: relative;
+  min-height: 30vw;
+  max-height: 50vw;
+  width: 100vw;
+}
+
+.boast {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0 0 $section_padding $section_padding;
+  width: 50%;
+}
+
+.boast h2 {
+  @extend .fabrica;
+  margin-bottom: 1em;
+  line-height: 1.2;
+}
+
+.boast p {
+  @extend .boast-content;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.boast-content {
+  color: #b7b7b7;
+  @extend .infinity;
+}
+
+section {
+  height: 90vh;
+}
+
+.parallax {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.parallax:not([mobile]) {
+  clip: rect(auto, auto, auto, auto);
+}
+
+.parallax:not([mobile])::after {
+  content: "";
+  background-blend-mode: multiply;
+  background-size: cover !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.parallax[mobile] {
+  left: 0;
+  top: 0;
+}
+
+.parallax[mobile]::after {
+  content: "";
+  background-blend-mode: multiply;
+  background-size: cover !important;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+#doneright > .parallax::after {
+  background: $shade url("../img/weights.png")
+}
+
+#contributions > .parallax::after {
+  background: $shade url("../img/constellation.jpg");
+}
+
+#hadoop > .parallax::after {
+  background: $shade url("../img/elephants.jpg")
+}
+
+#velesforge > .parallax::after {
+  background: $shade url("../img/collaboration.svg")
+}
+
+#publish > .parallax::after {
+  background: $shade url("../img/confluence.png")
+}
+
+#bboxer > .parallax::after {
+  background: $shade url("../img/fish.jpg")
+}
+
+#packed-features > .parallax::after {
+  background: $shade url("../img/cubes.jpg");
+}
+
+/*
+Fucking https://code.google.com/p/chromium/issues/detail?id=354096 prevents from
+<section id="..." class="parallax">
+  ...
+</section
+.parallax {
+  height: 90vh;
+  background-attachment: fixed !important;
+  background-blend-mode: multiply;
+  background-size: cover !important;
+}
+#doneright {
+  background: $shade url("../img/weights.png")
+}
+#contributions {
+  background: $shade url("../img/constellation.jpg")
+}
+#hadoop {
+  background: $shade url("../img/elephants.jpg")
+}
+#velesforge {
+  background: $shade url("../img/collaboration.svg")
+}
+#publish {
+  background: $shade url("../img/confluence.png")
+}
+#bboxer {
+  background: $shade url("../img/fish.jpg")
+}
+#packed-features {
+  background: $shade url("../img/cubes.jpg");
+}
+*/
+
+.details {
+  background-color: white;
+  max-height: none;
+  padding: $section_padding;
+  color: black;
+  font-size: 2em;
+  line-height: 1.2;
+  @extend .fabrica;
+}
+
+section.details {
+  height: auto;
+}
+
+section:last-of-type::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 1) 100%);
+}
+
+nav {
+  position: fixed;
+  width: 100vw;
+  height: $navicon_height * 2;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+  line-height: $navicon_height;
+  z-index: 1;
+}
+
+#links {
+  margin-top: 0.1em;
+  margin-left: $front_title_offset;
+}
+
+.toplink {
+  display: inline-block;
+  opacity: 0.6;
+  color: rgba(255, 255, 255, 0);
+  margin-right: 2em;
+}
+
+.toplink:hover {
+  opacity: 1.0;
+  text-decoration: none;
+}
+
+.toplink > img {
+  width: $navicon_height;
+  height: $navicon_height;
+  object-fit: contain;
+  display: inline-block;
+}
+
+#link-gerrit {
+  margin-left: 0.5em;
+}
+
+#link-forge {
+  margin-left: -0.5em;
+}
+
+.toplink::after {
+  content: attr(hint);
+  display: inline-block;
+  color: white;
+  font-family: 'Fabrica', arial, sans-serif;
+}
+
+@font-face {
+  font-family: 'Fabrica';
+  src: url('../fonts/Fabrica.otf');
+}
+
+@font-face {
+  font-family: 'Infinity';
+  src: url('../fonts/Infinity.ttf');
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu Mono'), local('UbuntuMono-Regular'), url(https://fonts.gstatic.com/s/ubuntumono/v6/ViZhet7Ak-LRXZMXzuAfkY4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+#title {
+  position: absolute;
+  left: $front_title_offset;
+  bottom: 10vh;
+  width: calc(100vw - #{$front_title_offset} * 2);
+  color: white;
+}
+
+.fabrica {
+  font-family: 'Fabrica', arial, sans-serif;
+}
+
+.infinity {
+  font-family: 'Infinity', arial, sans-serif;
+  letter-spacing: 0.075em;
+}
+
+.ubuntu-mono {
+  font-family: 'Ubuntu Mono', monospace;
+}
+
+#svg-samsung {
+  width: 6em;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+a:hover {
+  color: white;
+}
+
+.download {
+  @extend .fabrica;
+  font-size: 1.75em;
+  display: inline-block;
+  border: 2px white solid;
+  border-radius: $border_radius;
+  padding: 0.5em 1em 0.4em 1em;
+  color: white;
+}
+
+.download:hover {
+  background-color: white;
+  color: black;
+  text-decoration: none;
+}
+
+.ubuntu-download {
+  background: none;
+  color: white;
+  font-size: 1.5em;
+  border-radius: $border_radius;
+  display: inline-block;
+  margin: 0;
+}
+
+#bottom .ubuntu-download, #bottom .download, #developed_by {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#locpie-container {
+  float: right;
+  max-width: 20vw;
+  margin-left: $section_padding;
+  margin-bottom: $section_padding;
+  text-align: center;
+}
+
+#locpie-container > h4 {
+  @extend .fabrica;
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+#locpie {
+  position: relative;
+  width: $loc_chart_size;
+  height: $loc_chart_size;
+  margin-bottom: 1em;
+}
+
+.pie-tip {
+  position: absolute;
+  float: left;
+  min-width: 30px;
+  max-width: 300px;
+  padding: 5px 18px 6px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .97);
+  color: #444;
+  font-size: 19px;
+  text-shadow: 0 1px 0 #fff;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.3;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
+  transition: all .3s;
+  pointer-events: none;
+
+}
+
+.pie-tip:after {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  content: "";
+  height: 0;
+  margin: 0 0 0 -6px;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  border-top: 6px solid rgba(255, 255, 255, .95);
+  line-height: 0;
+}
+
+#locpie-legend {
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid black;
+  border-radius: $border_radius;
+  padding: 0 0.25em 0.25em 0.25em;
+  display: inline-block;
+  text-align: left;
+}
+
+.locpie-legend-record::before {
+  content: "";
+  position: absolute;
+  top: 0.25em;
+  bottom: 0.25em;
+  left: 0.1em;
+  width: 1em;
+}
+
+$colors: #3366cc #ff9900 #dc3912 #109618 #990099 #0099c6 #dd4477 #66aa00;
+@for $i from 1 through length($colors) {
+  .lp#{$i}::before {
+    background-color: nth($colors, $i);
+  }
+}
+
+.locpie-legend-record {
+  padding: 0.125em 0 0.125em 1.5em;
+  font-size: 0.5em;
+  position: relative;
+  display: inline-block;
+}
+
+#bottom {
+  background-color: black;
+  padding: 1em;
+  position: relative;
+}
+
+#bottom::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  height: 10em;
+  width: 100%;
+  z-index: -100;
+  background-color: black;
+}
+
+#deps {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  width: 55vw;
+  object-fit: cover;
+}
+
+#loader-sample {
+  font-size: 0.4em;
+  @extend .ubuntu-mono;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  position: relative;
+  overflow: visible;
+  margin: 0;
+}
+
+.log-info {
+  color: #34e2e2;
+  font-weight: bold;
+}
+
+.log-debug {
+  color: #d3d7cf;
+}
+
+.log-success {
+  color: #8ae234;
+  font-weight: bold;
+}
+
+#loader-stats {
+  display: flex;
+  flex-direction: row;
+}
+
+#loader-stats-boast {
+  flex: auto;
+  margin-top: 8em;
+  margin-right: 1em;
+  line-height: 1.2;
+  width: 50%;
+}
+
+.log-annotation {
+  position: absolute;
+  right: calc(100% + 1em);
+  color: black;
+  @extend .infinity;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding-right: 0.2em;
+  border-width: 0 2px 0 0;
+  border-style: solid;
+  border-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 50%,
+                                rgba(0, 0, 0, 1) 100%) 1 100%;
+}
+
+@-moz-document url-prefix() {
+  .log-annotation {
+    /* Fix buggy Firefox, see https://bugzilla.mozilla.org/show_bug.cgi?id=709587#c19 */
+    border-image: none;
+  }
+}
+
+.log-annotation::before {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  width: calc(100% + 2px);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 100%);
+}
+
+.log-annotation::after {
+  content: "";
+  position: absolute;
+  background-image: linear-gradient(to right, #000 0%, #000 75%, #fff 75.001%, #fff 100%);
+  width: 1.2em;
+  height: 2px;
+  top: calc(50% - 1px);
+  margin-left: 0.3em;
+}
+
+.github-fork-ribbon-wrapper {
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: visibility 0.5s linear 0.5s, opacity 0.5s linear;
+  transition-delay: 0s;
+}
+
+.details > .with-picture {
+  display: flex;
+  height: $details_height;
+  flex-direction: row;
+}
+
+.with-picture > .description {
+  flex: 1.0;
+}
+
+.with-picture > .description > p {
+  margin-bottom: 1em;
+}
+
+.with-picture > .description > p:last-of-type {
+  margin-bottom: 0;
+}
+
+.with-picture > .picture {
+  flex: 1.5;
+  margin-left: 1em;
+  position: relative;
+}
+
+#plotters-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 4em;
+  height: 50vh;
+}
+
+#plotters {
+  flex: 3;
+  margin-right: 2em;
+}
+
+#viewerjs {
+  flex: auto;
+}
+
+#ms {
+  animation: spin 15s linear infinite;
+  width: 100%;
+  height: $details_height;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+$ms-size-x: 5.4em;
+$ms-size-y: 3.1177em;  /* 5.4 / sqrt(3)*/
+$ms-size-z: 2 * 3.1177em;
+
+#message1:not([mobile]) {
+  animation: msg1anim 2s linear infinite alternate;
+}
+
+#message2:not([mobile]) {
+  animation: msg2anim 2.9s ease-out infinite alternate;
+}
+
+#message3:not([mobile]) {
+  animation: msg3anim 2.3333s linear infinite alternate;
+}
+
+#message4:not([mobile]) {
+  animation: msg4anim 2.6666s ease-out infinite alternate;
+}
+
+#message5:not([mobile]) {
+  animation: msg5anim 1.8888s linear infinite alternate;
+}
+
+#message6:not([mobile]) {
+  animation: msg6anim 2.4444s ease-out infinite alternate;
+}
+
+@keyframes msg1anim {
+  100% {
+    transform: translateX($ms-size-x) translateY($ms-size-y);
+  }
+}
+
+@keyframes msg2anim {
+  100% {
+    transform: translateX($ms-size-x) translateY(-$ms-size-y);
+  }
+}
+
+@keyframes msg3anim {
+  100% {
+    transform: translateY(-$ms-size-z);
+  }
+}
+
+@keyframes msg4anim {
+  100% {
+    transform: translateX(-$ms-size-x) translateY(-$ms-size-y);
+  }
+}
+
+@keyframes msg5anim {
+  100% {
+    transform: translateX(-$ms-size-x) translateY($ms-size-y);
+  }
+}
+
+@keyframes msg6anim {
+  100% {
+    transform: translateY($ms-size-z);
+  }
+}
+
+.ms-message[mobile] {
+  display: none;
+}
+
+#king {
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  height: $details_height;
+  left: 0;
+  top: 0;
+}
+
+#veles-arch {
+  align-items: center;
+  height: auto;
+}
+
+#master-slave {
+  height: auto;
+}
+
+#master-slave-desc {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: $details_height;
+}
+
+#master-slave-desc p {
+  margin-bottom: 1em;
+}
+
+#master-slave-desc p:last-of-type {
+  margin-bottom: 0;
+}
+
+#master-slave-picture {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+#workflow {
+  height: 45vw;
+}
+
+#countdown {
+  min-height: initial;
+  height: auto;
+  background-color: $brand-danger;
+  padding: 4em;
+}
+
+#countdown:not([mobile])::after {
+  content: "";
+  left: 0;
+  top: 100%;
+  background-color: $brand-danger;
+  position: absolute;
+  width: 100%;
+  height: 50vh;
+}
+
+#countdown > h2 {
+  @extend .fabrica;
+  color: black;
+  text-align: center;
+}
+
+#countdown > h2:nth-of-type(2) {
+  margin-top: 2em;
+}
+
+#countdown > pre, #countdown > a {
+  margin: 1em auto 0 auto;
+  display: table;
+}
+
+#countdown > .countdown-container {
+  margin-bottom: 0.5em !important;
+}
+
+#countdown-notice {
+  font-size: 1em;
+  color: black;
+  @extend .fabrica;
+  text-align: center;
+  display: block;
+  margin-top: 2em;
+}
+
+#intro {
+  height: 49em;
+  padding-top: 1em;
+}
+
+#intro h3 {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+#steps > li {
+  display: block;
+  height: 4em;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+@for $i from 1 through 9 {
+  @if $i < 5 {
+    #steps > li:nth-child(#{$i}) {
+      margin-left: calc((100vw - #{$section_padding} * 2) * (#{$i} - 1) / 8);
+    }
+    #steps > li:nth-child(#{$i}) > img {
+      margin-right: 1em;
+    }
+  } @else {
+    #steps > li:nth-child(#{$i}) {
+      margin-right: calc((100vw - #{$section_padding} * 2) * (8 - #{$i}) / 8);
+      float: right;
+    }
+    #steps > li:nth-child(#{$i}) > img {
+      margin-left: 1em;
+    }
+  }
+}
+
+$step-img-size: 2em;
+
+#steps img {
+  border-radius: $step-img-size;
+  border: 0.1em solid black;
+  width: $step-img-size * 2;
+  height: $step-img-size * 2;
+}
+
+#developed_by {
+  @extend .boast-content;
+  margin-bottom: 1em;
+}

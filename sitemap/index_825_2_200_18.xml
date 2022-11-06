@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Halaman Presentasi dari 'Chetabahana Project' berikut Tutorial Situs GitHub dengan Jeckyll">
+
+    <title>2;68;5;1 | The ₠Quantum Project - A Unique Mapping System</title>
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- stylesheet -->
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/camera.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/isotope.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/owl.carousel.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/restcookbook.css">
+
+    <!-- script -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-migrate-1.2.1.js"></script>
+    <script src="/js/jquery.equalheights.js"></script>
+    <script src="/js/isotope.min.js"></script>
+
+    <!-- browser -->
+    <!--[if (gt IE 9)|!(IE)]><!-->
+    <script src="/js/jquery.mobile.customized.min.js"></script>
+    <!--<![endif]-->
+    <script src="/js/camera.js"></script>
+    <script src="/js/owl.carousel.js"></script>
+    <!--[if lt IE 9]>
+    <div style=' clear: both; text-align:center; position: relative;'>
+        <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+            <img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0"
+                 height="42" width="820"
+                 alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."/>
+        </a>
+    </div>
+    <script src="/js/html5shiv.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/ie.css">
+    <![endif]-->
+
+</head>
+<body>
+<div class="page">
+<section id="blogArchive">      
+	<div class="container">
+		<div class="row">
+			<div class="blog-breadcrumbs-area">
+				<div class="blog-breadcrumbs-left">
+					<h1 class="header_2"></h1>
+				</div>
+				<div class="blog-breadcrumbs-right">
+					<ol class="breadcrumb">
+						<li>You are here</li>
+						<li><a href="/">Home</a></li>                  
+						<li><a href="/programs">Programs</a></li>
+						<li><a href=""></a></li>
+						<li class="active"><a href="https://github.com/eq19//blob/gh-pages/sitemap/index_825_2_200_18.xml">Source Link</a></li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>      
+</section>    
+<!--========================================================
+                          CONTENT
+=========================================================-->
+<section id="l-main">
+<div class="container">
+	<div class="row">
+		<div id="content" class="col-xs-12 col-sm-9 col-sm-push-3">
+			
+			<div class="search-results">
+    <h2>Searching<span class="AnimatedEllipsis"></span></h2>
+    <p class="summary"></p>
+    <ul class="content pl-0"></ul>
+</div>
+
+			<hr>
+			<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = "";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+		</div>
+		<div class="col-xs-12 col-sm-3 col-sm-pull-9 sidebar">
+			<h2 class="question">Topics (14 total)</h2>
+<ul class="topics">
+
+
+    
+    <li class="topic-header"><b>dummy_post (1 topics)</b>
+        <ul class='subnavlist'>
+        
+        
+            <li class='recipe '>
+    			<a href="//sitemap/2018/132/05/dummy.html">dummy</a>
+			</li>
+        
+        </ul>
+    </li>
+    
+</ul>
+		</div>
+	</div>
+</div>
+
+        <div class="bg_1 wrap_16 wrap_10">
+			<div class="container">
+				<div class="row">
+					<div class="grid_12">
+						<h2 class="header_1 indent_2 color_3">
+							Get in Touch
+						</h2>
+						<div id="owl_2">
+							<div class="item">
+								<div class="row">
+									<div class="preffix_1 grid_10">
+										<ul class="list_3">
+											<li><a href="/maps" target="_blank"><img src="/images/index-1_img09.jpg" alt="Image 9"/></a></li>
+											<li><a href="/feed" target="_blank"><img src="/images/index-1_img10.jpg" alt="Image 10"/></a></li>
+											<li><a href="/parser" target="_blank"><img src="/images/index-1_img11.jpg" alt="Image 11"/></a></li>
+											<li><a href="/tunnel" target="_blank"><img src="/images/index-1_img12.jpg" alt="Image 12"/></a></li>
+											<li><a href="/classes" target="_blank"><img src="/images/index-1_img13.jpg" alt="Image 13"/></a></li>
+											<li><a href="/quantum" target="_blank"><img src="/images/index-1_img14.jpg" alt="Image 14"/></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="row">
+									<div class="preffix_1 grid_10">
+										<ul class="list_3">
+											<li><a href="http://www.hyip.world/" target="_blank"><img src="/images/index-1_img09.jpg" alt="Image 9"/></a></li>
+											<li><a href="http://seo.tophyips.info/" target="_blank"><img src="/images/index-1_img10.jpg" alt="Image 10"/></a></li>
+											<li><a href="http://hyipmonitors.info/" target="_blank"><img src="/images/index-1_img11.jpg" alt="Image 11"/></a></li>
+											<li><a href="http://map.hyip.world/" target="_blank"><img src="/images/index-1_img12.jpg" alt="Image 12"/></a></li>
+											<li><a href="http://hyipscript.info/" target="_blank"><img src="/images/index-1_img13.jpg" alt="Image 13"/></a></li>
+											<li><a href="http://info.hyip.world/" target="_blank"><img src="/images/index-1_img14.jpg" alt="Image 14"/></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row wrap_9 wrap_4 wrap_10">
+					<div class="grid_12">
+						<div class="box_3">
+							<ul class="list_1">
+								<li><a class="fa fa-facebook" href="https://www.facebook.com/hyipproject/"></a></li>
+								<li><a class="fa fa-twitter" href="https://twitter.com/thehyipproject"></a></li>
+								<li><a class="fa fa-google-plus" href="https://plus.google.com/+HyipWorldProject"></a></li>
+								<li><a class="fa fa-stack-overflow" href="https://stackoverflow.com/users/4058484/hyip"></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</section>
+</div>
+<!--========================================================
+                          FOOTER
+=========================================================-->
+<footer id="footer" class="color_9">
+<div class="container">
+    <div class="row">
+        <div class="grid_12">
+            <p class="info text_4 color_4">
+                Copyright © <span id="copyright-year"></span> | <a href="https://github.com/hyip">The ₠Quantum Project</a> <br/>
+                Website designed by <a href="http://store.templatemonster.com/?aff=hyiptheme" rel="nofollow">TemplateMonster.com</a>
+            </p>
+        </div>
+    </div>
+</div>
+</footer>
+<!--========================================================
+                    GOOGLE ANALYTICS
+=========================================================-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="/js/script.js"></script>
+</body>
+</html>

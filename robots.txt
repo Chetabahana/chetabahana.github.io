@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /.*
+Disallow: /c/*
+Disallow: /GoJS/*
+Disallow: /beta/*
+Disallow: /intro/*
+Disallow: /samples/*
+Disallow: /complete/*
+Disallow: /extensions/*
+
+Sitemap: /sitemap.xml

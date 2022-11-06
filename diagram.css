@@ -1,0 +1,11 @@
+// core
+@import url(https://www.eq19.com/slick/slick/slick.css);
+@import url(https://www.eq19.com/slick/slick/slick-theme.css);
+@import url(https://www.eq19.com/pattern/diagrams/diagrams.css);
+@import url(https://www.eq19.com/scroll/jquery.simplyscroll.css);
+@import url(https://www.eq19.com/sequence/css/sequence-diagram-min.css);
+@import url(https://www.eq19.com/tree/test/fixtures/three.graphql/graphiql.css);
+
+//improved
+@import url(https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css);

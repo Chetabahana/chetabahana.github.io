@@ -1,0 +1,35 @@
+<xsl:stylesheet 
+  version="1.0" 
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  exclude-result-prefixes="atom"
+>
+<xsl:template match="/">
+<HTML>
+  <BODY>
+    <TABLE BORDER="1">
+      <TR>
+        <TD>Id</TD>
+        <TD>Tags</TD>
+        <TD>Name</TD>
+        <TD>Category</TD>
+        <TD>Feed URL</TD>
+      </TR>
+      <xsl:apply-templates select="atom:feed/atom:entry">
+        <xsl:sort select="atom:title"/>
+      </xsl:apply-templates>      
+    </TABLE>
+  </BODY>
+</HTML>
+</xsl:template>
+
+<xsl:template match="atom:feed/atom:entry">
+      <TR>
+        <TD><xsl:value-of select="atom:myId"/></TD>              
+        <TD><xsl:value-of select="atom:tags"/></TD>              
+        <TD><xsl:value-of select="atom:title"/></TD>              
+        <TD><xsl:value-of select="atom:category"/></TD>              
+        <TD><A><xsl:attribute name="href"><xsl:value-of select="atom:link/@href"/></xsl:attribute><xsl:value-of select="atom:link/@href"/></A></TD>
+      </TR>
+      </xsl:template>
+</xsl:stylesheet>

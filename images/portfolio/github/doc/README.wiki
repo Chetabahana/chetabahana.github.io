@@ -1,0 +1,24 @@
+
+Convert cells range to image in Excel
+
+How to convert cells range to image in Excel?
+In Microsoft Excel, we can copy a range as a picture, but can't export it as an individual image. Here I will guide you to convert Excel range to image with Copy as Picture command of Excel and Paint tool in Windows.
+
+1. Select a range that you need to export as a picture.
+
+2. In Excel 2010/2013, click Home > Copy > Copy as Picture, and in the Copy Picture prompt box, select the options as follows and click OK.
+
+3. Then open the Paint tool in Windows by clicking Start > All programs > Accessories > Paint. See screenshot:
+
+4. Paste the copied picture in Paint tool and save it. In the Save As dialog box, specify a folder you want to put the picture, and enter the name of the picture, then choose the picture type as you need from the Save as type drop down list, See screenshot:
+
+5. Click Save button, and the selected cells range has been saved as the picture format in the specific folder.
+
+Notes:
+
+1. The Copy as Picture command cannot be used on multiple selections.
+
+2. If you want to copy the selection of Excel to Word, PowerPoint or other programs, you can paste it to them directly after Step 2.
+
+Reference:
+http://www.extendoffice.com/documents/excel/615-convert-excel-to-jpeg-png-gif-tif.html
