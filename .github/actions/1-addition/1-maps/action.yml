@@ -137,7 +137,7 @@ runs:
           fi
         done
 
-       #python -m pip -q install --upgrade pip
+        #python -m pip -q install --upgrade pip
         #python -m pip -q install -r ${{ inputs.action_path }}/dataFile/requirements.txt
   
         ##python -m pip -q install -e ./.github/entrypoint/artifact/python
@@ -152,7 +152,7 @@ runs:
         ##Ref: https://github.com/eq19/maps/tree/v3/pythonCode
         ##python ${{ github.workspace }}/.github/entrypoint/artifact/python/gellmann.py
         ##cd ${{ inputs.action_path }}/pythonCode && python npreader.py -h && python map.py -h
-        
+
     - name: 🚀 Initiate Lexer
       uses: devcontainers/ci@v0.3
       with:
