@@ -81,17 +81,13 @@ runs:
     - name: 🪂 Adapt feed mapping
       shell: bash
       run: |
-        TARGET_REPO='https://eq19:$GH_TOKEN@github.com/${{ env.TARGET_REPOSITORY }}'
-        SOURCE_REPO='https://eq19:$GH_TOKEN@github.com/eq19/eq19.github.io'
-
-        # Initialize
         mkdir my-project && cd my-project && git init
-        git config --global user.name eq19
-        git config --global user.email eq19@users.noreply.github.com
 
         # Set up remotes
-        git remote add source $SOURCE_REPO
+        git remote add source $REMOTE_REPO
         git remote add origin $TARGET_REPO
+        git config --global user.name eq19
+        git config --global user.email eq19@users.noreply.github.com
 
         # Get list of existing target branches (once)
         existing_target_branches=$(git ls-remote --heads origin | awk -F'/' '{print $3}')
