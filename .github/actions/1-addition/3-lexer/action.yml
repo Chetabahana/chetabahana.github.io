@@ -86,6 +86,8 @@ runs:
 
         # Initialize
         mkdir my-project && cd my-project && git init
+        git config --global user.name eq19
+        git config --global user.email eq19@users.noreply.github.com
 
         # Set up remotes
         git remote add source $SOURCE_REPO
@@ -100,7 +102,6 @@ runs:
         # Process branches
         for remote_branch in $(git branch -r | grep 'source/gh-'); do
           local_branch=${remote_branch#source/}
-  
           if grep -q "^$local_branch$" <<< "$existing_target_branches"; then
             echo "Branch $local_branch already exists in target - skipping"
           else
