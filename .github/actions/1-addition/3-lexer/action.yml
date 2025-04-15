@@ -81,34 +81,6 @@ runs:
     - name: 🪂 Adapt feed mapping
       shell: bash
       run: |
-        mkdir my-project && cd my-project && git init
-        git config --global user.name eq19
-        git config --global user.email eq19@users.noreply.github.com
-        git config --global credential.helper store
-        echo "https://eq19:$GH_TOKEN@github.com" > ~/.git-credentials
-
-        # Set up remotes
-        git remote add source $REMOTE_REPO
-        git remote add origin $TARGET_REPO
-
-        # Get list of existing target branches (once)
-        existing_target_branches=$(git ls-remote --heads origin | awk -F'/' '{print $3}')
-
-        # Fetch only gh- branches from source
-        git fetch source 'refs/heads/gh-*:refs/remotes/source/gh-*'
-
-        # Process branches
-        for remote_branch in $(git branch -r | grep 'source/gh-'); do
-          local_branch=${remote_branch#source/}
-          if grep -q "^$local_branch$" <<< "$existing_target_branches"; then
-            echo "Branch $local_branch already exists in target - skipping"
-          else
-            git checkout -b $local_branch $remote_branch
-            git push origin $local_branch
-            echo "Successfully pushed $local_branch to target"
-          fi
-        done
-
         cd ${{ github.workspace }}/_site && rm -rf .git .devcontainer.json Dockerfile
         git clone --single-branch -b gh-pages ${TARGET_REPO} ${{ inputs.action_path }}/_site &>/dev/null
 
