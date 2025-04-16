@@ -81,10 +81,10 @@ runs:
     - name: 🪂 Adapt feed mapping
       shell: bash
       run: |
-        cd ${{ github.workspace }}/_site && rm -rf .git .devcontainer.json Dockerfile
+        cd ${{ github.workspace }}/_site && rm -rf .git .devcontainer.json Dockerfile && pwd && ls -al
         git clone --single-branch -b gh-pages ${TARGET_REPO} ${{ inputs.action_path }}/_site &>/dev/null
 
-        cd ${{ inputs.action_path }}/_site
+        cd ${{ inputs.action_path }}/_site && pwd && ls -al
         shopt -s dotglob && rm -rf ${RUNNER_TEMP}/*
         [[ -d docs ]] && mv -f docs ${RUNNER_TEMP}/
         [[ -d .sass-cache ]] && mv -f .sass-cache ${RUNNER_TEMP}/
