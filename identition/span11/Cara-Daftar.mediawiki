@@ -1,9 +1,0 @@
-Untuk membuat Akun di GitHub bisa via undangan dari teman atau via link berikut ini:
-
-https://github.com/join
-
-Nanti akan diminta untuk isi form seperti ini:
-
-[[https://chetabahana.files.wordpress.com/2018/06/form-github.png|form pendaftaran]]
-
-Di GitHub itu gratis dapatkan akun. Ada juga akun yang berbayar yaitu akun privat. Di akun privat ini kita bisa bikin perangkat lunak kolaborasinya yg hanya dengan tim kita saja jadi gak expose ke publik. 
