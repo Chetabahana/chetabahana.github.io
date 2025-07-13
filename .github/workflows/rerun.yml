@@ -1,4 +1,4 @@
-name: Cancel & Rerun Workflow
+name: GH Cancel & Rerun Workflow
 
 on:
   workflow_dispatch:
