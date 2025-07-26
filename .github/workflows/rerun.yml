@@ -1,4 +1,4 @@
-name: Rerun Workflow
+name: Rerun Main Workflow
 
 on:
   workflow_dispatch:
