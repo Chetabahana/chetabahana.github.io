@@ -93,12 +93,11 @@ jobs:
           initiate_pauli_sum: ${{ toJSON(steps.feed-mapping.outputs) }}
 
       - name: 📋 Generate Outputs
+        if: ${{ JOBS_ID == 2 }}
         id: gen_outputs
         shell: bash
         run: |
-          output=${{ env.JOBS_ID == 1 &&
-            steps.feed-mapping.outputs.addition ||
-            steps.set-lexering.outputs.multiplication }}
+          output=${{ steps.feed-mapping.outputs.addition ||steps.set-lexering.outputs.multiplication }}
           echo "output_${id}=${output}" >> "${GITHUB_OUTPUT}"
 
           HEADER="Accept: application/vnd.github+json"
