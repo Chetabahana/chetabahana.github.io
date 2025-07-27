@@ -218,7 +218,7 @@ elif [[ "${JOBS_ID}" == "3" ]]; then
   CONFIG_LIVE="/home/runner/data_live/config.json"
   CONFIG_BASE="$BASE_URL/config_examples/config_exchange.example.json"
   HYPEROPT_PARAM="/home/runner/user_data/strategies/hyperopt_params.json"
-    
+
   if /mnt/disks/deeplearning/usr/bin/docker exec mydb curl -sf -o "$CONFIG" "$CONFIG_BASE"; then
     /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|your_telegram_chat_id|$TELEGRAM_CHAT_ID|g" $CONFIG
     /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|config_examples|/home/runner/user_data/config_examples|g" $CONFIG
@@ -254,6 +254,7 @@ elif [[ "${JOBS_ID}" == "3" ]]; then
     | jq -r '.value' > _config.yml
 
   # Get the strategy file and params value then save to fibbo.py and fibbo.json
+  BEARER=$(/mnt/disks/deeplearning/usr/bin/gcloud auth print-identity-token)
   /mnt/disks/deeplearning/usr/bin/docker exec mydb \
     curl -s -X POST -H "Authorization: Bearer ${BEARER}" -H "Content-Type: application/json" \
     https://us-central1-feedmapping.cloudfunctions.net/function \
