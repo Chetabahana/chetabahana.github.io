@@ -93,7 +93,7 @@ jobs:
           initiate_pauli_sum: ${{ toJSON(steps.feed-mapping.outputs) }}
 
       - name: 📋 Generate Outputs
-        if: ${{ JOBS_ID == 2 }}
+        if: ${{ env.JOBS_ID == 2 }}
         id: gen_outputs
         shell: bash
         run: |
@@ -150,6 +150,12 @@ jobs:
         id: set-parser
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
+          chat_id: ${{ secrets.MESSAGE_API }}
+          api_key: ${{ secrets.ACCESS_API }}
+          api_secret: ${{ secrets.ACCESS_KEY }}
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+          bot_token: ${{ secrets.MONITOR_TOKEN }}
+          logs_token: ${{ secrets.WARNING_TOKEN }}
           credentials: ${{ secrets.GCP_CREDENTIALS }}
           pauli_sum: ${{ needs.lexering.outputs.function }}
           failure_status: ${{ contains(steps.check-out.conclusion, 'failure') ||
