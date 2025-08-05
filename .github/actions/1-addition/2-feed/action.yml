@@ -115,6 +115,7 @@ runs:
         pip install -qq --no-cache-dir -r ${{ github.workspace }}/user_data/build_helpers/requirements-hyperopt.txt
         pip install -qq --no-cache-dir --no-build-isolation --upgrade freqtrade
         cd ${{ github.workspace }} && cat user_data/config_examples/config_full.example.json > user_data/config.json
+        jq '.pairlists = [{"method": "StaticPairList"}]' user_data/config_examples/config_pairlist.example.json
         freqtrade download-data --help && freqtrade download-data --timeframes $TIMEFRAMES --timerange="$(date -u -d "3 months ago" +%Y%m%d)-$(date -u +%Y%m%d)" --verbose
 
     - name: Upload downloaded data as artifact
