@@ -100,7 +100,7 @@ runs:
       id: variables
       shell: bash
       run: |
-        brew update --quiet
+        brew update --quiet && brew uninstall cmake
         brew install --quiet coreutils doxygen pandoc gsl cmake ninja lcov gcc@12 qt@5 texlive
         brew info qt@5 && brew info gsl
         IFS=', '; array=($(curl -L -s 'https://registry.hub.docker.com/v2/repositories/${{ inputs.image_name }}/tags?page_size=1024' | jq -rc '."results"[]["name"]' | yq eval -P | sed "s/ /, /g")) 
@@ -220,7 +220,7 @@ runs:
       shell: bash
       run: >
         gcloud compute instances create grid-${{ env.IMAGE_TAG }}
-        --service-account=project-owner@feedmapping.iam.gserviceaccount.com
+        --service-account=project-owner@marketleader.iam.gserviceaccount.com
         --scopes=https://www.googleapis.com/auth/cloud-platform --deletion-protection
         --zone=us-central1-a --machine-type=e2-micro --enable-display-device --tags=https-server
         --boot-disk-device-name=cos --image-project cos-cloud --image-family cos-stable --metadata-from-file=user-data=cloud-config
