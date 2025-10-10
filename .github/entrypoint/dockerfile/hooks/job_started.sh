@@ -68,17 +68,6 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
   echo -e "\n$hr\nDeepLearning Packages\n$hr"
   /mnt/disks/deeplearning/usr/bin/dpkg -l | sort
 
-  echo -e "\n$hr\nDeepLearning Docker info\n$hr"
-  /mnt/disks/deeplearning/usr/bin/docker info
-  
-  echo -e "\n$hr\nDeepLearning Final Cloud\n$hr"
-  /mnt/disks/deeplearning/usr/bin/gcloud info
-  echo -e "\n$hr\n"
-  /mnt/disks/deeplearning/usr/bin/gcloud info --run-diagnostics
-  
-  echo -e "\n$hr\nDeepLearning Docker containers\n$hr"
-  /mnt/disks/deeplearning/usr/bin/docker container ls -a
-
   #echo -e "\n$hr\nDeepLearning Locate Python\n$hr" 
   #find /mnt/disks/eeplearning -type d -name '*python*' | sort
 
@@ -111,7 +100,13 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
     echo "Check $i of $max_retries..."
 
     if $DOCKER ps --format '{{.Names}}' | grep -wq "^mydb$"; then
-      echo "Condition fulfilled ✅"
+      echo -e "\nCondition fulfilled ✅"
+
+      echo -e "\n$hr\nDeepLearning Final Cloud\n$hr" && /mnt/disks/deeplearning/usr/bin/gcloud info
+      echo -e "\n$hr\n" && /mnt/disks/deeplearning/usr/bin/gcloud info --run-diagnostics
+  
+      echo -e "\n$hr\nDeepLearning Docker info\n$hr" && $DOCKER info
+      echo -e "\n$hr\n" && $DOCKER container ls -a
 
       # Setup freqtrade userdir for dry mode
       if ! $DOCKER exec mydb test -d "/home/runner/data_dry"; then
@@ -127,18 +122,19 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
         $DOCKER exec mydb mkdir -p /home/runner/data_live/strategies/utils
       elif $DOCKER exec mydb supervisorctl status freqtrade_live | grep -q "RUNNING"; then
         $DOCKER exec mydb supervisorctl stop freqtrade_live || true
-        $DOCKER exec mydb supervisorctl stop monitor_freqtrade || true
+        $DOCKER exec mydb supervisorctl stop monitor_freqtrade || true to 
       fi
 
       exit 0
     fi
 
     if [ $i -lt $max_retries ]; then
-      sleep $interval
+      wait=$((i * interval))
+      sleep $wait
     fi
   done
 
   echo "Condition not fulfilled after $max_retries checks ❌"
-  gh workflow run "main.yml" --repo "$REPO_NAME"
+  gh workflow run "main.yml" --repo "$REPOSITORY" --raw-field "REMOVE_RUNNER=true"
 
 fi

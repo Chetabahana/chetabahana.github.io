@@ -103,6 +103,7 @@ runs:
 
     - name: 🚀 Initiate Lexer
       uses: devcontainers/ci@v0.3
+      if: runner.os == 'Redis'
       id: artifact
       with:
         imageTag: id-${{ env.ID }}

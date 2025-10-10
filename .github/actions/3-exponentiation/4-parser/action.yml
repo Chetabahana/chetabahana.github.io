@@ -112,7 +112,7 @@ runs:
         fi
 
     - name: View context attributes
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: console.log(context)
 
@@ -127,4 +127,4 @@ runs:
       if: ${{ failure() }}
       shell: bash
       run: |
-        [[ "$GITHUB_JOB" == "parsering" ]] && gh workflow run "main.yml"
+        [[ "$GITHUB_JOB" == "parsering" ]] && gh workflow run "main.yml" --repo "$REPOSITORY" --raw-field "REMOVE_RUNNER=$RERUN_RUNNER"

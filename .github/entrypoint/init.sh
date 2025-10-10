@@ -48,10 +48,15 @@ export MAP_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" \
   https://api.github.com/repos/eq19/maps | jq -r .default_branch)
 export DEFAULT_BRANCH=$(curl -s -H "Authorization: token $GH_TOKEN" \
   https://api.github.com/repos/$GITHUB_REPOSITORY | jq -r .default_branch)
+export FREQAIMODEL_DRY=$(curl -s -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" \
+  "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/variables/FREQAIMODEL" | jq -r '.value')
+export FREQAIMODEL_LIVE=$(curl -s -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" \
+  "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/variables/FREQAIMODEL" | jq -r '.value')
 export RERUN_RUNNER=$(curl -s -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" \
   "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/variables/RERUN_RUNNER" | jq -r '.value')
 export TARGET_REPOSITORY=$(curl -s -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" \
   "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/variables/TARGET_REPOSITORY" | jq -r '.value')
+
 
 echo 'RERUN_RUNNER='${RERUN_RUNNER} >> ${GITHUB_ENV}
 echo 'DEFAULT_BRANCH='${DEFAULT_BRANCH} >> ${GITHUB_ENV}
@@ -171,6 +176,8 @@ elif [[ "${JOBS_ID}" == "2" ]]; then
 elif [[ "${JOBS_ID}" == "3" ]]; then
 
   # Configuration
+  NONCE=$(date +%s)
+  METHOD="getInfo"
   MAX_RETRIES=3
   DIRS=(
     "data_dry"
@@ -183,7 +190,12 @@ elif [[ "${JOBS_ID}" == "3" ]]; then
     "strategies/utils/__init__.py"
     "strategies/utils/indodax_patch.py"
   )
+  PARAMS="method=${METHOD}&nonce=${NONCE}"
+  DOCKER="/mnt/disks/deeplearning/usr/bin/docker"
   BASE_URL="https://raw.githubusercontent.com/eq19/maps/$MAP_BRANCH/user_data"
+  SIGNATURE=$(echo -n "$PARAMS" | openssl sha512 -hmac "$API_SECRET" | cut -d' ' -f2)
+  BALANCE=$(curl -s -X POST -H "Key: $API_KEY" -H "Sign: $SIGNATURE" -d "method=$METHOD" -d "nonce=$NONCE" "https://indodax.com/tapi/")
+  ASSET_COUNT=$(echo "$BALANCE" | jq -r '.return.balance | to_entries | map(select(.value != 0 and .value != "0")) | length')
 
   for DIR_PATH in "${DIRS[@]}"; do
     for REL_PATH in "${FILES[@]}"; do
@@ -191,16 +203,16 @@ elif [[ "${JOBS_ID}" == "3" ]]; then
       DEST_PATH="/home/runner/$DIR_PATH/$REL_PATH"
 
       # Ensure parent directory exists (no file existence check)
-      /mnt/disks/deeplearning/usr/bin/docker exec mydb mkdir -p "$(dirname "$DEST_PATH")"
-      /mnt/disks/deeplearning/usr/bin/docker exec mydb rm -rf "$(dirname "$DEST_PATH")/strategies/__pycache__"
-      /mnt/disks/deeplearning/usr/bin/docker exec mydb rm -rf "$(dirname "$DEST_PATH")/strategies/utils/__pycache__"
+      $DOCKER exec mydb mkdir -p "$(dirname "$DEST_PATH")"
+      $DOCKER exec mydb rm -rf "$(dirname "$DEST_PATH")/strategies/__pycache__"
+      $DOCKER exec mydb rm -rf "$(dirname "$DEST_PATH")/strategies/utils/__pycache__"
 
       # Download with retries (always overwrite
       for attempt in $(seq 1 $MAX_RETRIES); do
         echo "⌛ [Attempt $attempt/$MAX_RETRIES] Downloading: $REL_PATH"
     
-        if /mnt/disks/deeplearning/usr/bin/docker exec mydb curl -sf -o "$DEST_PATH" "$DOWNLOAD_URL"; then
-          if /mnt/disks/deeplearning/usr/bin/docker exec mydb test -s "$DEST_PATH"; then
+        if $DOCKER exec mydb curl -sf -o "$DEST_PATH" "$DOWNLOAD_URL"; then
+          if $DOCKER exec mydb test -s "$DEST_PATH"; then
             echo "✅ [SUCCESS] Downloaded: $DEST_PATH"
             break
           else
@@ -221,48 +233,57 @@ elif [[ "${JOBS_ID}" == "3" ]]; then
   done
 
   # Setup freqtrade config.json
+  CONF="/etc/supervisor/supervisord.conf"
   CONFIG="/home/runner/user_data/config.json"
   CONFIG_DRY="/home/runner/data_dry/config.json"
   CONFIG_LIVE="/home/runner/data_live/config.json"
-  CONFIG_FULL="$BASE_URL/config_examples/config_full.example.json"
-  CONFIG_BASE="$BASE_URL/config_examples/config_exchange.example.json"
-  CONFIG_PAIR="$BASE_URL/config_examples/config_pairlist.example.json"
+  SUPERVISORD_CONF="$BASE_URL/ft_client/supervisord.conf"
+  CONFIG_BASIC="$BASE_URL/config_examples/config_basic.example.json"
+  CONFIG_PAIRLIST="$BASE_URL/config_examples/config_pairlist.example.json"
+  CONFIG_EXCHANGE="$BASE_URL/config_examples/config_exchange.example.json"
   HYPEROPT_PARAM="/home/runner/user_data/strategies/hyperopt_params.json"
   EXCHANGE_PARAM="/home/runner/user_data/config_examples/config_exchange.example.json"
   PAIRLIST_PARAM="/home/runner/user_data/config_examples/config_pairlist.example.json"
 
   set -euo pipefail  # Strict error handling
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb rm -rf "$CONFIG"
-  if /mnt/disks/deeplearning/usr/bin/docker exec mydb curl -sf -o "$CONFIG" "$CONFIG_FULL"; then
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|your_telegram_chat_id|$TELEGRAM_CHAT_ID|g" $CONFIG
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|config_examples|/home/runner/user_data/config_examples|g" $CONFIG
+  $DOCKER exec mydb rm -rf "$CONFIG"
+  if $DOCKER exec mydb curl -sf -o "$CONFIG" "$CONFIG_BASIC"; then
+    $DOCKER exec mydb sed -i "s|your_telegram_chat_id|$TELEGRAM_CHAT_ID|g" $CONFIG
+    $DOCKER exec mydb sed -i "s|config_examples|/home/runner/user_data/config_examples|g" $CONFIG
 
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb ls -al /home/runner/user_data
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb bash -c "jq '.telegram.enabled = true' $CONFIG > $CONFIG_DRY"
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb bash -c "jq '.telegram.enabled = true' $CONFIG > $CONFIG_LIVE"
-    #/mnt/disks/deeplearning/usr/bin/docker exec mydb bash -c "jq '.telegram.enabled = true | .dry_run = false' $CONFIG > $CONFIG_LIVE"
+    $DOCKER exec mydb ls -al /home/runner/user_data
+    WALLET=$(echo $BALANCE | jq '.return.balance.idr')
+    if [[ "${ASSET_COUNT}" == "1" ]]; then echo $WALLET; fi
+  
+    $DOCKER exec mydb bash -c "jq '.telegram.enabled = true' $CONFIG > $CONFIG_DRY"
+    $DOCKER exec mydb bash -c "jq '.telegram.enabled = true' $CONFIG > $CONFIG_LIVE"
+    #$DOCKER exec mydb bash -c "jq '.telegram.enabled = true | .dry_run = false' $CONFIG > $CONFIG_LIVE"
 
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|tradesv3|tradesv3_dry|g" $CONFIG_DRY
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|tradesv3|tradesv3_live|g" $CONFIG_LIVE
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|your_telegram_token|$MONITOR_BOT_TOKEN|g" $CONFIG_DRY
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|your_telegram_token|$TRADING_BOT_TOKEN|g" $CONFIG_LIVE
+    $DOCKER exec mydb sed -i "s|tradesv3|tradesv3_dry|g" $CONFIG_DRY
+    $DOCKER exec mydb sed -i "s|tradesv3|tradesv3_live|g" $CONFIG_LIVE
+    $DOCKER exec mydb sed -i "s|your_telegram_token|$MONITOR_BOT_TOKEN|g" $CONFIG_DRY
+    $DOCKER exec mydb sed -i "s|your_telegram_token|$TRADING_BOT_TOKEN|g" $CONFIG_LIVE
 
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb curl -sf -o "$PAIRLIST_PARAM" "$CONFIG_PAIR"
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb curl -sf -o "$EXCHANGE_PARAM" "$CONFIG_BASE"
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|your_exchange_key|$API_KEY|g" $EXCHANGE_PARAM
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|your_exchange_secret|$API_SECRET|g" $EXCHANGE_PARAM
+    $DOCKER exec mydb curl -sf -o "$CONF" "$SUPERVISORD_CONF"
+    $DOCKER exec mydb sed -i "s|FREQAIMODEL_DRY|$FREQAIMODEL_DRY|g" $CONF
+    $DOCKER exec mydb sed -i "s|FREQAIMODEL_LIVE|$FREQAIMODEL_LIVE|g" $CONF
 
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|TELEGRAM_CHAT_ID|$TELEGRAM_CHAT_ID|g" /freqtrade.sh
-    /mnt/disks/deeplearning/usr/bin/docker exec mydb sed -i "s|WARNING_BOT_TOKEN|$WARNING_BOT_TOKEN|g" /freqtrade.sh
+    $DOCKER exec mydb curl -sf -o "$PAIRLIST_PARAM" "$CONFIG_PAIRLIST"
+    $DOCKER exec mydb curl -sf -o "$EXCHANGE_PARAM" "$CONFIG_EXCHANGE"
+    $DOCKER exec mydb sed -i "s|your_exchange_key|$API_KEY|g" $EXCHANGE_PARAM
+    $DOCKER exec mydb sed -i "s|your_exchange_secret|$API_SECRET|g" $EXCHANGE_PARAM
+
+    $DOCKER exec mydb sed -i "s|TELEGRAM_CHAT_ID|$TELEGRAM_CHAT_ID|g" /freqtrade.sh
+    $DOCKER exec mydb sed -i "s|WARNING_BOT_TOKEN|$WARNING_BOT_TOKEN|g" /freqtrade.sh
 
     echo "🚀 All files updated (forced overwrite)!"
   fi
 
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb bash -c \
+  $DOCKER exec mydb bash -c \
     "curl -s -H 'Authorization: token $GH_TOKEN' -H 'Accept: application/vnd.github.v3+json' \
     https://api.github.com/repos/$GITHUB_REPOSITORY/actions/variables/PARAMS_DRY \
     | jq -r '.value' > /home/runner/data_dry/strategies/fibbo.json"
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb bash -c \
+  $DOCKER exec mydb bash -c \
     "curl -s -H 'Authorization: token $GH_TOKEN' -H 'Accept: application/vnd.github.v3+json' \
     https://api.github.com/repos/$GITHUB_REPOSITORY/actions/variables/PARAMS_LIVE \
     | jq -r '.value' > /home/runner/data_live/strategies/fibbo.json"
@@ -275,12 +296,12 @@ elif [[ "${JOBS_ID}" == "3" ]]; then
     "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/variables/JEKYLL_CONFIG" \
     | jq -r '.value' > _config.yml
 
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb cat $HYPEROPT_PARAM
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb cp $HYPEROPT_PARAM /home/runner/data_dry/strategies/hyperopt_params.json
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb cp $HYPEROPT_PARAM /home/runner/data_live/strategies/hyperopt_params.json
+  $DOCKER exec mydb cat $HYPEROPT_PARAM
+  $DOCKER exec mydb cp $HYPEROPT_PARAM /home/runner/data_dry/strategies/hyperopt_params.json
+  $DOCKER exec mydb cp $HYPEROPT_PARAM /home/runner/data_live/strategies/hyperopt_params.json
 
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb ls -alR /home/runner/data_dry
-  /mnt/disks/deeplearning/usr/bin/docker exec mydb ls -alR /home/runner/data_live
+  $DOCKER exec mydb ls -alR /home/runner/data_dry
+  $DOCKER exec mydb ls -alR /home/runner/data_live
 
   echo -e "\n$hr\nCONFIG\n$hr" && cat _config.yml
   echo -e "\n$hr\nENVIRONTMENT\n$hr" && printenv | sort

@@ -85,6 +85,7 @@ runs:
   
   steps:
     - name: ⏪ Rewind all jobs on failure
+      if: runner.os != 'Windows'
       shell: bash
       env:
         DOMAIN: "www.eq19.com"
@@ -210,4 +211,4 @@ runs:
       if: ${{ failure() }}
       shell: bash
       run: |
-        [[ "$GITHUB_JOB" == "parsering" ]] && gh workflow run "main.yml"
+        [[ "$GITHUB_JOB" == "parsering" ]] && gh workflow run "main.yml" --repo $REPO_NAME --raw-field "REMOVE_RUNNER=$RERUN_RUNNER"
