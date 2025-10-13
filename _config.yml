@@ -3,11 +3,11 @@ user: eq19
 span: span18
 title: eQuantum
 repository: Chetabahana/Chetabahana.github.io
-action: eq19/grammar/actions/runs/18450911594
+action: eq19/grammar/actions/runs/18466517873
 description: 
 
 debug:
-  dist: false
+  dist: true
   compress: true
   shortcodes: true
 
