@@ -3,7 +3,7 @@ user: eq19
 span: span18
 title: eQuantum
 repository: Chetabahana/Chetabahana.github.io
-action: eq19/grammar/actions/runs/18447876392
+action: eq19/grammar/actions/runs/18450911594
 description: 
 
 debug:
@@ -33,7 +33,6 @@ exclude:
   - Dockerfile
 
 plugins:
-  - jemoji
   - jekyll-gist
   - jekyll-avatar
   - jekyll-mentions
