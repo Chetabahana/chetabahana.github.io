@@ -102,6 +102,7 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
     if $DOCKER ps --format '{{.Names}}' | grep -wq "^mydb$"; then
       echo -e "\nCondition fulfilled ✅"
 
+
       echo -e "\n$hr\nDeepLearning Final Cloud\n$hr" && /mnt/disks/deeplearning/usr/bin/gcloud info
       echo -e "\n$hr\n" && /mnt/disks/deeplearning/usr/bin/gcloud info --run-diagnostics
   
@@ -112,17 +113,19 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
       if ! $DOCKER exec mydb test -d "/home/runner/data_dry"; then
         $DOCKER exec mydb freqtrade create-userdir --userdir /home/runner/data_dry
         $DOCKER exec mydb mkdir -p /home/runner/data_dry/strategies/utils
-      elif $DOCKER exec mydb supervisorctl status freqtrade_dry | grep -q "RUNNING"; then
-        $DOCKER exec mydb supervisorctl stop freqtrade_dry || true
+      #elif $DOCKER exec mydb supervisorctl status freqtrade_dry | grep -q "RUNNING"; then
+        #curl -s -u YourUsername:YourPassword http://172.17.0.1:8081/api/v1/daily | jq '.data | map(.abs_profit) | add'
+        #$DOCKER exec mydb supervisorctl stop freqtrade_dry || true
       fi
 
       # Setup freqtrade userdir for live mode
       if ! $DOCKER exec mydb test -d "/home/runner/data_live"; then
         $DOCKER exec mydb freqtrade create-userdir --userdir /home/runner/data_live
         $DOCKER exec mydb mkdir -p /home/runner/data_live/strategies/utils
-      elif $DOCKER exec mydb supervisorctl status freqtrade_live | grep -q "RUNNING"; then
-        $DOCKER exec mydb supervisorctl stop freqtrade_live || true
-        $DOCKER exec mydb supervisorctl stop monitor_freqtrade || true to 
+      #elif $DOCKER exec mydb supervisorctl status freqtrade_live | grep -q "RUNNING"; then
+        #curl -s -u YourUsername:YourPassword http://172.17.0.1:8082/api/v1/daily | jq '.data | map(.abs_profit) | add'
+        #$DOCKER exec mydb supervisorctl stop freqtrade_live || true
+        #$DOCKER exec mydb supervisorctl stop monitor_freqtrade || true
       fi
 
       exit 0

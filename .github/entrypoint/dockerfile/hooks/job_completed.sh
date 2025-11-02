@@ -65,8 +65,8 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
   $DOCKER exec mydb supervisorctl update
   if [[ "$RERUN_RUNNER" == "true" ]]; then
     echo "🚀 Run all applications upon the given configuration."
-    $DOCKER exec mydb supervisorctl start freqtrade_dry
     $DOCKER exec mydb supervisorctl start freqtrade_live
+    $DOCKER exec mydb supervisorctl start freqtrade_dry
     set_monitor
 
   #Check if ✅ $APP is running inside $CONTAINER
@@ -79,12 +79,15 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
       $DOCKER exec runner1 /home/runner/scripts/exitpoint.sh $REMOVE_REPOSITORY $TARGET_REPOSITORY
     fi
 
+    echo "🌀 Reload all application's configs upon the updated configuration."
+    $DOCKER exec mydb curl -s -u YourUsername:YourPassword -X POST http://127.17.0.1:8081/api/v1/reload_config
+    $DOCKER exec mydb curl -s -u YourUsername:YourPassword -X POST http://127.17.0.1:8082/api/v1/reload_config
+
   else
-    # Optionally restart:
-    # docker start "$CONTAINER" && docker exec "$CONTAINER" supervisorctl start "$APP"
-    echo "🌀 Rerun all applications upon the updated configuration."
-    $DOCKER exec mydb supervisorctl start freqtrade_dry
+    # Optionally reload:
+    echo "🌀 Rerun all applications upon failure."
     $DOCKER exec mydb supervisorctl start freqtrade_live
+    $DOCKER exec mydb supervisorctl start freqtrade_dry
     set_monitor
   fi
 fi
