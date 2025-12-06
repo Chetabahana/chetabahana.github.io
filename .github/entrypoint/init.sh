@@ -89,14 +89,14 @@ if [[ "${JOBS_ID}" == "1" ]]; then
 
     #git clone --single-branch --branch gh-pages $REMOTE_REPO gh-pages && cd gh-pages
     #git add . && git commit --allow-empty -m "rerun due to job update" && git push
-    gh workflow run "main.yml"
+    gh workflow run "main.yml" --raw-field "FREQAI_MODEL=$FREQAI_MODEL"
 
   else
 
     if [[ ! -f $RUNNER_TEMP/_config.yml ]]; then set_config $1; fi
     if [[ "$(yq '.repository' $RUNNER_TEMP/_config.yml)" != "$TARGET_REPOSITORY" ]]; then
       echo "$(yq '.repository' $RUNNER_TEMP/_config.yml) != $TARGET_REPOSITORY"
-      gh workflow run "main.yml"
+      gh workflow run "main.yml" --raw-field "FREQAI_MODEL=$FREQAI_MODEL"
     else
       HEADER="Accept: application/vnd.github+json"
       RESPONSE=$(gh api -H "${HEADER}" repos/$TARGET_REPOSITORY/actions/runners)
@@ -114,8 +114,8 @@ if [[ "${JOBS_ID}" == "1" ]]; then
 
     #Ref: https://github.com/tsoding/JelloVM
     javac -d $1/user_data/ft_client/test_client $1/javaCode/Main.java
-
     rm -rf .dockerignore user_data && mv -f $1/user_data .
+
     echo -e "\n$hr\nWORKSPACE\n$hr" && ls -al .
 
     # Fetch SHA, encode new content, and update in one step
