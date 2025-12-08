@@ -108,8 +108,8 @@ runs:
         echo "Jobs returned:"
         cat jobs.json
 
-        # Find job 1 status (matrix index 1 corresponds to first job)
-        job1_status=$(jq -r '.jobs[] | select(.name | contains("jobs_id: 1")) | .conclusion' jobs.json)
+        # Get first job's conclusion (jobs_id:1 = index 0)
+        job1_status=$(jq -r '.jobs[0].conclusion' jobs.json)
         echo "Job 1 conclusion = $job1_status"
 
         if [ "$job1_status" = "cancelled" ]; then
