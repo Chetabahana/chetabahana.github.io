@@ -111,7 +111,7 @@ jobs:
           FREQAI_MODEL: ${{ fromJson(inputs.matrix_json).freqai }}
         run: |
           echo "Running hyperopt..."
-          echo "Space: $SPACE"
+          #echo "Space: $SPACE"
           echo "Score: $SCORE"
           bash user_data/ft_client/test_client/feed.sh hyperopt
 
