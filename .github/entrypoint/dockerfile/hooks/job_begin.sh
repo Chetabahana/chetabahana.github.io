@@ -60,6 +60,36 @@ dpkg -l | sort
 echo -e "\n$hr\nExecutables\n$hr"
 find ${PATH//:/ } -maxdepth 1 -executable | sort
 
+freqtrade_total_profit() {
+  local PORT="$1"
+  local MODE="$2"
+  local USER="YourUsername"
+  local PASS="YourPassword"
+  local CONTAINER="mydb"
+  
+  # Get daily profit
+  local DAILY
+  DAILY=$(curl -s -u "$USER:$PASS" \
+    "http://172.17.0.1:${PORT}/api/v1/daily" \
+    | jq '[.data[].abs_profit // 0] | add // 0')
+  
+  # Get open profit
+  local OPEN
+  OPEN=$(curl -s -u "$USER:$PASS" \
+    "http://172.17.0.1:${PORT}/api/v1/status" \
+    | jq '[.[].profit_abs // 0] | add // 0')
+  
+  # Calculate total and set as global variable
+  declare -g TOTAL
+  TOTAL=$(echo "$DAILY + $OPEN" | bc -l)
+  
+  echo "Port      : $PORT ($MODE)"
+  echo "Weekly PnL: $DAILY IDR"
+  echo "Open PnL  : $OPEN IDR"
+  echo "------------------------"
+  echo "TOTAL     : $TOTAL IDR"
+}
+
 if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
   
   echo -e "\n$hr\n"
@@ -90,6 +120,7 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
 
   # Max retries
   max_retries=10
+
   # Interval between checks (10 retries in 10 minutes -> 60s each)
   interval=60
 
@@ -102,7 +133,6 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
     if $DOCKER ps --format '{{.Names}}' | grep -wq "^mydb$"; then
       echo -e "\nCondition fulfilled ✅"
 
-
       echo -e "\n$hr\nDeepLearning Final Cloud\n$hr" && /mnt/disks/deeplearning/usr/bin/gcloud info
       echo -e "\n$hr\n" && /mnt/disks/deeplearning/usr/bin/gcloud info --run-diagnostics
   
@@ -111,27 +141,53 @@ if [ -d /mnt/disks/deeplearning/usr/local/sbin ]; then
 
       # Setup freqtrade userdir for dry mode
       if ! $DOCKER exec mydb test -d "/home/runner/data_dry"; then
-        $DOCKER exec mydb freqtrade create-userdir --userdir /home/runner/data_dry
-        $DOCKER exec mydb mkdir -p /home/runner/data_dry/strategies/utils
-        $DOCKER exec mydb rm -rf /home/runner/data_dry/freqaimodels
-        $DOCKER exec mydb ln -s /home/runner/user_data/freqaimodels /home/runner/data_dry/freqaimodels
-      #elif $DOCKER exec mydb supervisorctl status freqtrade_dry | grep -q "RUNNING"; then
-        #curl -s -u YourUsername:YourPassword http://172.17.0.1:8081/api/v1/daily | jq '.data | map(.abs_profit) | add'
-        #$DOCKER exec mydb supervisorctl stop freqtrade_dry || true
+        $DOCKER exec mydb bash -c 'freqtrade create-userdir --userdir /home/runner/data_dry'
+        $DOCKER exec mydb bash -c 'rm -rf /home/runner/data_dry/freqaimodels'
+        $DOCKER exec mydb bash -c 'cp -a /home/runner/user_data/freqaimodels /home/runner/data_dry/'
+        #$DOCKER exec mydb bash -c 'ln -s /home/runner/user_data/freqaimodels /home/runner/data_dry/freqaimodels'
+      elif $DOCKER exec mydb supervisorctl status freqtrade_dry | grep -q "RUNNING"; then
+        echo -e "\n$hr\nTotal Profit Dry-run vs Live Mode\n$hr"
+        freqtrade_total_profit 8081 Dry
+        TOTAL1=$TOTAL
       fi
 
       # Setup freqtrade userdir for live mode
       if ! $DOCKER exec mydb test -d "/home/runner/data_live"; then
-        $DOCKER exec mydb freqtrade create-userdir --userdir /home/runner/data_live
-        $DOCKER exec mydb mkdir -p /home/runner/data_live/strategies/utils
-        $DOCKER exec mydb rm -rf /home/runner/data_live/freqaimodels
-        $DOCKER exec mydb ln -s /home/runner/user_data/freqaimodels /home/runner/data_live/freqaimodels
-      #elif $DOCKER exec mydb supervisorctl status freqtrade_live | grep -q "RUNNING"; then
-        #curl -s -u YourUsername:YourPassword http://172.17.0.1:8082/api/v1/daily | jq '.data | map(.abs_profit) | add'
-        #$DOCKER exec mydb supervisorctl stop freqtrade_live || true
-        #$DOCKER exec mydb supervisorctl stop monitor_freqtrade || true
-      fi
+        $DOCKER exec mydb bash -c 'freqtrade create-userdir --userdir /home/runner/data_live'
+        $DOCKER exec mydb bash -c 'rm -rf /home/runner/data_live/freqaimodels'
+        $DOCKER exec mydb bash -c 'cp -a /home/runner/user_data/freqaimodels /home/runner/data_live/'
+        #$DOCKER exec mydb bash -c 'ln -s /home/runner/user_data/freqaimodels /home/runner/data_live/freqaimodels'
+      elif $DOCKER exec mydb supervisorctl status freqtrade_live | grep -q "RUNNING"; then
+        echo -e "\n$hr\n"
+        freqtrade_total_profit 8082 Live
+        TOTAL2=$TOTAL
 
+        if [ -n "$TOTAL1" ] && [ -n "$TOTAL2" ] && \
+          [ $(echo "$TOTAL1 > 0" | bc) -eq 1 ] && \
+          [ $(echo "$TOTAL1 > $TOTAL2" | bc) -eq 1 ]; then
+          echo "Dry-run is better than Live mode"
+          $DOCKER exec mydb supervisorctl stop freqtrade_dry || true
+          $DOCKER exec mydb supervisorctl stop freqtrade_live || true
+          $DOCKER exec mydb supervisorctl stop monitor_freqtrade || true
+          $DOCKER exec mydb mv /home/runner/data_dry /home/runner/data_dry_
+          $DOCKER exec mydb mv /home/runner/data_live /home/runner/data_live_
+          $DOCKER exec mydb mv /home/runner/data_dry_ /home/runner/data_live
+          $DOCKER exec mydb mv /home/runner/data_live_ /home/runner/data_dry
+          $DOCKER exec mydb bash -c 'for folder in /home/runner/tradesv3_dry.*; do mv "$folder" "${folder/tradesv3_dry/tradesv3_dry_}"; done'
+          $DOCKER exec mydb bash -c 'for folder in /home/runner/tradesv3_live.*; do mv "$folder" "${folder/tradesv3_live/tradesv3_live_}"; done'
+          $DOCKER exec mydb bash -c 'for folder in /home/runner/tradesv3_dry_.*; do mv "$folder" "${folder/tradesv3_dry_/tradesv3_live}"; done'
+          $DOCKER exec mydb bash -c 'for folder in /home/runner/tradesv3_live_.*; do mv "$folder" "${folder/tradesv3_live_/tradesv3_dry}"; done'
+        else
+          echo "Live mode is better than dry-run"
+          $DOCKER exec mydb supervisorctl stop freqtrade_dry || true
+          $DOCKER exec mydb bash -c 'rm -rf /home/runner/data_dry /home/runner/tradesv3_dry.*'
+          $DOCKER exec mydb bash -c 'freqtrade create-userdir --userdir /home/runner/data_dry'
+          $DOCKER exec mydb bash -c 'rm -rf /home/runner/data_dry/freqaimodels'
+          $DOCKER exec mydb bash -c 'cp -a /home/runner/user_data/freqaimodels /home/runner/data_dry/'
+          #$DOCKER exec mydb bash -c 'ln -s /home/runner/user_data/freqaimodels /home/runner/data_dry/freqaimodels'
+        fi
+
+      fi
       exit 0
     fi
 
